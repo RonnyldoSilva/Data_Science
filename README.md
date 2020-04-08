@@ -10,4 +10,4 @@
 ### Examples
 
 Quantile regression:
-![](https://github.com/RonnyldoSilva/Opencv-Mat-to-Base64/blob/master/opencvmatbase64.png)
+![](https://github.com/RonnyldoSilva/Data_Science/blob/master/quantile_regression.png)
