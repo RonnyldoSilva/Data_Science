@@ -6,3 +6,7 @@
 * pandas
 * numpy
 * matplotlib
+
+### Examples
+
+Quantile regression:
