@@ -4,7 +4,6 @@ import statsmodels.api as sm
 import statsmodels.formula.api as smf
 import matplotlib.pyplot as plt
 
-# load data
 data = sm.datasets.engel.load_pandas().data
 print(data.head())
 
@@ -36,9 +35,11 @@ get_y = lambda a, b: a + b * x
 
 fig, ax = plt.subplots(figsize=(8, 6))
 
+colors = ['black', 'red', 'blue', 'green', 'grey', 'purple', 'pink', 'darkgreen', 'orange', 'cyan', 'lightgreen', 'gold']
+
 for i in range(models.shape[0]):
     y = get_y(models.a[i], models.b[i])
-    ax.plot(x, y, linestyle='dotted', color='grey')
+    ax.plot(x, y, linestyle='dotted', color=colors[i], label=str(quantiles[i])[0:4])
 
 y = get_y(ols['a'], ols['b'])
 
