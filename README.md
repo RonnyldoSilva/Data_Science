@@ -10,6 +10,7 @@
 ### Examples
 
 Quantile regression:
+![](https://github.com/RonnyldoSilva/Data_Science/blob/master/quantile_regression.png)
 ```
        income     foodexp
 0  420.157651  255.839425
@@ -48,4 +49,3 @@ strong multicollinearity or other numerical problems.
 {'a': 147.47538852370573, 'b': 0.48517842367692354, 'lb': 0.4568738130184233, 'ub': 0.5134830343354237}
 
 ```
-![](https://github.com/RonnyldoSilva/Data_Science/blob/master/quantile_regression.png)
