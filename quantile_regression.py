@@ -4,6 +4,7 @@ import statsmodels.api as sm
 import statsmodels.formula.api as smf
 import matplotlib.pyplot as plt
 
+# load data
 data = sm.datasets.engel.load_pandas().data
 print(data.head())
 
