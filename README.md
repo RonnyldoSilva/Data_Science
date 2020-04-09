@@ -10,7 +10,7 @@
 ### Examples
 
 Quantile regression:
-![](https://github.com/RonnyldoSilva/Data_Science/blob/master/quantile_regression.png)
+![](https://github.com/RonnyldoSilva/Data_Science/blob/master/quantile_regression_example.png)
 ```
        income     foodexp
 0  420.157651  255.839425
