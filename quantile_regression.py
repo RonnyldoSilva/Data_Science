@@ -8,12 +8,15 @@ data = sm.datasets.engel.load_pandas().data
 print(data.head())
 
 mod = smf.quantreg('foodexp ~ income', data)
-res = mod.fit(q=.5)
+res = mod.fit(q = 0.5)
 print(res.summary())
+print(res.prsquared)
 
+prsquareds = []
 quantiles = np.arange(.05, .96, .1)
 def fit_model(q):
     res = mod.fit(q=q)
+    prsquareds.append(res.prsquared)
     return [q, res.params['Intercept'], res.params['income']] + \
             res.conf_int().loc['income'].tolist()
 
@@ -39,11 +42,11 @@ colors = ['black', 'red', 'blue', 'green', 'grey', 'purple', 'pink', 'darkgreen'
 
 for i in range(models.shape[0]):
     y = get_y(models.a[i], models.b[i])
-    ax.plot(x, y, linestyle='dotted', color=colors[i], label=str(quantiles[i])[0:4])
+    ax.plot(x, y, linestyle='dotted', color=colors[i], label=str(quantiles[i])[0:4] + "_r2=" + str(prsquareds[i])[0:5])
 
 y = get_y(ols['a'], ols['b'])
 
-ax.plot(x, y, color='red', label='OLS')
+ax.plot(x, y, color='red', label='OLS_r2=' + str(res.prsquared)[0:5])
 ax.scatter(data.income, data.foodexp, alpha=.2)
 ax.set_xlim((240, 3000))
 ax.set_ylim((240, 2000))
