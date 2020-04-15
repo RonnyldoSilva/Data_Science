@@ -9,7 +9,10 @@
 
 ### Examples
 
-Quantile regression:
+Discrete quantile regression:
+![](https://github.com/RonnyldoSilva/Data_Science/blob/master/Figure_2.png)
+
+Continuos quantile regression:
 ![](https://github.com/RonnyldoSilva/Data_Science/blob/master/quantile_regression_example.png)
 ```
        income     foodexp
