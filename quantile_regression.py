@@ -1,56 +1,50 @@
+import csv
 import numpy as np
 import pandas as pd
 import statsmodels.api as sm
 import statsmodels.formula.api as smf
 import matplotlib.pyplot as plt
 
-data = sm.datasets.engel.load_pandas().data
-print(data.head())
+df = pd.read_csv('../data/pontos_nas_dimensoes_porte_uf_idade.csv', sep=';')
 
-mod = smf.quantreg('foodexp ~ income', data)
+mod = smf.quantreg('protestos ~ porte', df)
 res = mod.fit(q = 0.5)
+res_ols_prsquared = res.prsquared
 print(res.summary())
 print(res.prsquared)
 
+quantiles = np.arange(.85, .99, .01)
+
+# get all result instances in a list
 prsquareds = []
-quantiles = np.arange(.05, .96, .1)
-def fit_model(q):
+res_all = []
+for q in quantiles:
     res = mod.fit(q=q)
-    prsquareds.append(res.prsquared)
-    return [q, res.params['Intercept'], res.params['income']] + \
-            res.conf_int().loc['income'].tolist()
+    prsquared = res.prsquared
+    prsquareds.append(prsquared)
+    res_all.append(res)
 
-models = [fit_model(x) for x in quantiles]
-models = pd.DataFrame(models, columns=['q', 'a', 'b', 'lb', 'ub'])
+res_ols = smf.ols('protestos ~ porte', df).fit()
 
-ols = smf.ols('foodexp ~ income', data).fit()
-ols_ci = ols.conf_int().loc['income'].tolist()
-ols = dict(a = ols.params['Intercept'],
-           b = ols.params['income'],
-           lb = ols_ci[0],
-           ub = ols_ci[1])
+plt.figure()
 
-print(models)
-print(ols)
+# create x for prediction
+x_p = np.linspace(df.porte.min(), df.porte.max(), 50)
+df_p = pd.DataFrame({'porte': x_p})
 
-x = np.arange(data.income.min(), data.income.max(), 50)
-get_y = lambda a, b: a + b * x
+colors = ['black', 'red', 'blue', 'green', 'grey', 'purple', 'pink', 'darkgreen', 'orange', 'cyan', 'lightgreen', 'gold', 'darkblue', 'yellow', 'lightblue']
+i = 0
+for qm, res in zip(quantiles, res_all):
+    # get prediction for the model and plot
+    # here we use a dict which works the same way as the df in ols
+    plt.plot(x_p, res.predict({'porte': x_p}), linestyle='--', lw=1, color=colors[i], zorder=2, label=str(qm)[0:4] + "_r2=" + str(prsquareds[i]))
+    i += 1
 
-fig, ax = plt.subplots(figsize=(8, 6))
-
-colors = ['black', 'red', 'blue', 'green', 'grey', 'purple', 'pink', 'darkgreen', 'orange', 'cyan', 'lightgreen', 'gold']
-
-for i in range(models.shape[0]):
-    y = get_y(models.a[i], models.b[i])
-    ax.plot(x, y, linestyle='dotted', color=colors[i], label=str(quantiles[i])[0:4] + "_r2=" + str(prsquareds[i])[0:5])
-
-y = get_y(ols['a'], ols['b'])
-
-ax.plot(x, y, color='red', label='OLS_r2=' + str(res.prsquared)[0:5])
-ax.scatter(data.income, data.foodexp, alpha=.2)
-ax.set_xlim((240, 3000))
-ax.set_ylim((240, 2000))
-legend = ax.legend()
-ax.set_xlabel('Income', fontsize=16)
-ax.set_ylabel('Food expenditure', fontsize=16)
+y_ols_predicted = res_ols.predict(df_p)
+plt.plot(x_p, y_ols_predicted, color='red', zorder=1, label='OLS' + "_r2=" + str(res_ols_prsquared))
+plt.plot(df.porte, df.protestos, 'o', alpha=.2, zorder=0)
+plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+plt.xlabel('porte')
+plt.ylabel('protestos')
+plt.title('')
 plt.show()
