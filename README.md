@@ -52,3 +52,8 @@ strong multicollinearity or other numerical problems.
 {'a': 147.47538852370573, 'b': 0.48517842367692354, 'lb': 0.4568738130184233, 'ub': 0.5134830343354237}
 
 ```
+
+### Pandas
+Delete row by value:
+```python
+```
