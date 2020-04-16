@@ -56,4 +56,5 @@ strong multicollinearity or other numerical problems.
 ### Pandas
 Delete row by value:
 ```python
+df = df[df.uf != target]
 ```
