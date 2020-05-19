@@ -1,5 +1,5 @@
 # My Data Science
- 
+
 ### Requeriments Setup:
 
 * statsmodels
