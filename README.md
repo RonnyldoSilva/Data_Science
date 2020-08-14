@@ -59,6 +59,11 @@ Delete row by value:
 df = df[df.uf != target]
 ```
 
+Drop column by name:
+```python
+new_frame = frame.drop(['name1', 'name2', 'name3'], axis=1)
+```
+
 Merge frames:
 ```python
 In [1]: df1 = pd.DataFrame({'A': ['A0', 'A1', 'A2', 'A3'],
